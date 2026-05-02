@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamesweN.ID - Portal Berita Game Indonesia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --red: #e8171d;
+            --dark: #0f0f0f;
+            --border: #e8e8e8;
+            --accent: #f5a623;
+
+            /* Social brand colors */
+            --facebook: #1877F2;
+            --instagram-start: #f09433;
+            --instagram-mid: #e6683c;
+            --instagram-end: #dc2743;
+            --tiktok: #010101;
+            --tiktok-accent: #EE1D52;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f7f7f7;
+            color: #111;
+            padding-top: 56px;
+        }
+
+        /* ─── HEADER ─── */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background: var(--dark);
+            padding: 0 5%;
+            height: 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 99;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+        }
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: var(--red);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 800; color: #fff;
+        }
+        .logo-text { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+        .logo-text span { color: var(--red); }
+
+        /* Nav — 3 items only */
+        .nav-links { display: flex; gap: 2px; }
+        .nav-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 13px; font-weight: 600;
+            padding: 6px 14px; border-radius: 4px;
+            transition: all 0.2s; display: inline-block;
+            white-space: nowrap;
+        }
+        .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-1px); }
+        .nav-links a.active { color: #fff; background: var(--red); }
+        .nav-links a.nav-topup {
+            background: var(--accent);
+            color: #111;
+            font-weight: 700;
+        }
+        .nav-links a.nav-topup:hover { background: #e0952a; transform: translateY(-1px); }
+
+        /* ─── TICKER ─── */
+        .ticker { background: var(--red); padding: 6px 0; overflow: hidden; white-space: nowrap; }
+        .ticker-wrap { display: inline-flex; animation: ticker 30s linear infinite; gap: 60px; }
+        .ticker-wrap span { font-size: 12px; font-weight: 500; color: #fff; }
+        .ticker-wrap span::before { content: "🎮 "; }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ─── CATEGORY BAR ─── */
+        .cat-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 0 5%; display: flex; overflow-x: auto; }
+        .cat-bar::-webkit-scrollbar { display: none; }
+        .cat-bar a {
+            color: #555; text-decoration: none; font-size: 13px; font-weight: 600;
+            padding: 10px 14px; white-space: nowrap; border-bottom: 2px solid transparent;
+            transition: all 0.2s; display: inline-block;
+        }
+        .cat-bar a:hover, .cat-bar a.active { color: var(--red); border-bottom-color: var(--red); }
+
+        /* ─── HERO ─── */
+        .hero {
+            background: #fff; padding: 24px 5%;
+            display: grid; grid-template-columns: 1.8fr 1fr;
+            gap: 20px; border-bottom: 1px solid var(--border); align-items: start;
+        }
+        .hero-main-link { display: block; text-decoration: none; border-radius: 6px; overflow: hidden; position: relative; }
+        .hero-main-link img { width: 100%; height: 300px; object-fit: cover; display: block; transition: transform 0.4s ease; }
+        .hero-main-link:hover img { transform: scale(1.03); }
+        .hero-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 32px 18px 18px;
+        }
+        .hero-tag {
+            background: var(--red); color: #fff; font-size: 10px; font-weight: 700;
+            padding: 3px 8px; border-radius: 3px; text-transform: uppercase;
+            letter-spacing: 0.8px; display: inline-block; margin-bottom: 8px;
+        }
+        .hero-title { color: #fff; font-size: 20px; font-weight: 700; line-height: 1.35; }
+        .hero-meta { color: #ccc; font-size: 11px; margin-top: 6px; }
+
+        .hero-side { display: flex; flex-direction: column; }
+        .side-item {
+            display: flex; gap: 12px; padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            text-decoration: none; transition: opacity 0.2s;
+        }
+        .side-item:hover { opacity: 0.72; }
+        .side-item:first-child { padding-top: 0; }
+        .side-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .side-thumb { width: 90px; height: 65px; flex-shrink: 0; border-radius: 4px; overflow: hidden; }
+        .side-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .side-cat { font-size: 10px; color: var(--red); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .side-title { font-size: 13px; font-weight: 600; color: #111; line-height: 1.4; }
+        .side-time { font-size: 11px; color: #999; margin-top: 4px; }
+
+        /* ─── SECTIONS ─── */
+        .content-section { background: #fff; padding: 24px 5%; border-bottom: 1px solid var(--border); margin-top: 10px; }
+        .section-title {
+            font-size: 14px; font-weight: 800; color: #111;
+            border-left: 3px solid var(--red); padding-left: 10px;
+            margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.5px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        /* ─── CARDS ─── */
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .news-card {
+            background: #fff; border: 1px solid #ebebeb; border-radius: 6px;
+            overflow: hidden; text-decoration: none; display: block;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .news-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .card-thumb { width: 100%; height: 150px; overflow: hidden; }
+        .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+        .news-card:hover .card-thumb img { transform: scale(1.05); }
+        .card-body { padding: 13px; }
+        .card-cat { font-size: 10px; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .card-title { font-size: 13px; font-weight: 600; color: #111; line-height: 1.45; }
+        .card-desc { font-size: 12px; color: #666; line-height: 1.55; margin-top: 5px; }
+        .card-time { font-size: 11px; color: #aaa; margin-top: 9px; display: flex; align-items: center; gap: 4px; }
+        .ext-badge {
+            display: inline-flex; align-items: center; gap: 3px;
+            font-size: 10px; color: #999; margin-left: auto;
+        }
+        .ext-badge i { font-size: 11px; }
+
+        /* ─── TOP-UP ─── */
+        .topup-section { background: var(--dark); padding: 24px 5%; margin-top: 10px; }
+        .topup-title {
+            font-size: 14px; font-weight: 800; color: #fff;
+            border-left: 3px solid var(--accent); padding-left: 10px;
+            margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .game-card {
+            background: #1a1a1a; border-radius: 8px; overflow: hidden;
+            text-align: center; text-decoration: none; display: block;
+            transition: transform 0.2s, box-shadow 0.2s; border: 1px solid #2a2a2a;
+        }
+        .game-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(232,23,29,0.3); border-color: var(--red); }
+        .game-card img { width: 100%; height: 100px; object-fit: cover; display: block; }
+        .game-card-label { padding: 10px 8px; font-size: 12px; font-weight: 600; color: #eee; }
+        .game-card-btn {
+            display: block; margin: 0 10px 10px; background: var(--red);
+            color: #fff; font-size: 11px; font-weight: 700; padding: 6px; border-radius: 4px; text-align: center;
+        }
+
+        /* ─── FOOTER ─── */
+        footer { background: var(--dark); padding: 28px 5%; margin-top: 10px; }
+        .footer-layout { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
+        .footer-brand .footer-logo { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
+        .footer-brand .footer-logo span { color: var(--red); }
+        .footer-brand p { font-size: 12px; color: #666; margin-top: 6px; max-width: 220px; line-height: 1.6; }
+
+        .footer-links-col h5 {
+            font-size: 12px; font-weight: 700; color: #aaa;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
+        }
+        .footer-links-col a { display: block; font-size: 12px; color: #777; text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-links-col a:hover { color: #fff; }
+
+        .team-member { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .team-emoji { font-size: 16px; }
+        .team-name { font-size: 13px; font-weight: 700; color: #ffffff; }
+        .team-info { font-size: 11px; color: #888; margin-top: 1px; }
+
+        /* ─── SOCIAL MEDIA — branded colors ─── */
+        .social-media { display: flex; gap: 8px; margin-top: 12px; }
+        .social-media a {
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; text-decoration: none;
+            transition: transform 0.25s, box-shadow 0.25s;
+            border: none;
+        }
+        .social-media a:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+
+        /* Facebook */
+        .social-facebook {
+            background: var(--facebook);
+            color: #fff;
+        }
+        .social-facebook:hover { background: #1565C0; }
+
+        /* Instagram — real gradient */
+        .social-instagram {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            color: #fff;
+        }
+
+        /* TikTok */
+        .social-tiktok {
+            background: #010101;
+            color: #fff;
+            border: 1px solid #333 !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .social-tiktok i {
+            position: relative;
+            z-index: 1;
+        }
+        .social-tiktok::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #69C9D0 0%, #010101 50%, #EE1D52 100%);
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+        .social-tiktok:hover::before { opacity: 1; }
+
+        .footer-bottom {
+            border-top: 1px solid #1e1e1e; margin-top: 20px; padding-top: 16px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+        }
+        .footer-bottom p { font-size: 11px; color: #555; }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) { .card-grid { grid-template-columns: repeat(2, 1fr); } .game-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .hero { grid-template-columns: 1fr; } .hero-side { display: none; } .nav-links a { font-size: 12px; padding: 5px 8px; } }
+        @media (max-width: 500px) { .card-grid { grid-template-columns: 1fr; } .game-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+
+    <!-- ═══ HEADER — 3 nav items only ═══ -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">G</div>
+            <span class="logo-text">GamesweN<span>.ID</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="#" class="active">Berita Terbaru</a>
+            <a href="#">Esport</a>
+            <a href="#topup" class="nav-topup">💎 Top-Up</a>
+        </nav>
+    </header>
+
+    <!-- ═══ TICKER ═══ -->
+    <div class="ticker">
+        <div class="ticker-wrap">
+            <span>Hollow Knight: Silksong raih Game of The Year Steam 2025</span>
+            <span>Mobile Legends Season baru hadir dengan hero terbaru</span>
+            <span>Nintendo Switch 2 resmi rilis dengan harga spesial</span>
+            <span>Genshin Impact update 6.0 hadirkan region baru</span>
+            <span>PUBG Mobile Season terbaru dengan map baru dirilis</span>
+            <span>Free Fire MAX kolaborasi dengan franchise anime populer</span>
+            <span>Hollow Knight: Silksong raih Game of The Year Steam 2025</span>
+            <span>Mobile Legends Season baru hadir dengan hero terbaru</span>
+            <span>Nintendo Switch 2 resmi rilis dengan harga spesial</span>
+            <span>Genshin Impact update 6.0 hadirkan region baru</span>
+            <span>PUBG Mobile Season terbaru dengan map baru dirilis</span>
+            <span>Free Fire MAX kolaborasi dengan franchise anime populer</span>
+        </div>
+    </div>
+
+    <!-- ═══ CATEGORY BAR ═══ -->
+    <div class="cat-bar">
+        <a href="#" class="active">Terbaru</a>
+        <a href="#">Mobile Game</a>
+        <a href="#">PC Game</a>
+        <a href="#">Konsol</a>
+        <a href="#">Esport</a>
+        <a href="#">Review</a>
+        <a href="#">Tips & Trik</a>
+        <a href="#">Update</a>
+        <a href="#">Turnamen</a>
+    </div>
+
+    <!-- ═══ HERO ═══ -->
+    <div class="hero">
+        <div>
+            <!-- Hero utama → berita lengkap di Gamebrott -->
+            <a href="https://gamebrott.com" target="_blank" rel="noopener" class="hero-main-link">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Hollow_Knight_Silksong.png"
+                    onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80'"
+                    alt="Hollow Knight Silksong GOTY">
+                <div class="hero-overlay">
+                    <span class="hero-tag">🏆 GOTY 2025</span>
+                    <div class="hero-title">Hollow Knight: Silksong Raih Game of The Year Versi Steam, Kalahkan Ratusan Nominasi!</div>
+                    <div class="hero-meta">3 jam yang lalu &nbsp;·&nbsp; PC Game &nbsp;·&nbsp; gamebrott.com &nbsp;↗</div>
+                </div>
+            </a>
+        </div>
+        <div class="hero-side">
+            <a href="https://www.duniagames.co.id/news" target="_blank" rel="noopener" class="side-item">
+                <div class="side-thumb">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Mobile_Legends_Bang_Bang.png/220px-Mobile_Legends_Bang_Bang.png"
+                        onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=200&q=80'" alt="Mobile Legends">
+                </div>
+                <div>
+                    <div class="side-cat">Mobile Game</div>
+                    <div class="side-title">Hero Baru Mobile Legends Hadir di Season 34, Ini Skill dan Build Terbaiknya</div>
+                    <div class="side-time">1 jam lalu · duniagames.co.id</div>
+                </div>
+            </a>
+            <a href="https://www.detik.com/inet/games" target="_blank" rel="noopener" class="side-item">
+                <div class="side-thumb">
+                    <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=200&q=80" alt="Nintendo Switch 2">
+                </div>
+                <div>
+                    <div class="side-cat">Konsol</div>
+                    <div class="side-title">Nintendo Switch 2 Resmi Hadir di Indonesia, Harga dan Cara Belinya</div>
+                    <div class="side-time">4 jam lalu · detikinet</div>
+                </div>
+            </a>
+            <a href="https://genshin.hoyoverse.com/en/news" target="_blank" rel="noopener" class="side-item">
+                <div class="side-thumb">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Genshin_Impact.svg/440px-Genshin_Impact.svg.png"
+                        onerror="this.src='https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=200&q=80'" alt="Genshin Impact">
+                </div>
+                <div>
+                    <div class="side-cat">RPG</div>
+                    <div class="side-title">Genshin Impact Update 6.0 Buka Region Baru dan Hadirkan 5 Karakter Legendaris</div>
+                    <div class="side-time">6 jam lalu · hoyoverse.com</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══ BERITA PILIHAN ═══ -->
+    <div class="content-section">
+        <div class="section-title">🔥 Berita Pilihan</div>
+        <div class="card-grid">
+
+            <a href="https://www.mobilelegends.com/en/news" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Mobile_Legends_Bang_Bang.png/440px-Mobile_Legends_Bang_Bang.png"
+                        onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&q=80'" alt="Mobile Legends">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Mobile Game</div>
+                    <div class="card-title">MLBB Rilis Update Besar: Mode Baru, Skin Legendary, dan Balancing Hero Marksman</div>
+                    <div class="card-desc">Moonton resmi merilis patch terbesar di tahun 2025 yang mencakup perombakan sistem rank.</div>
+                    <div class="card-time">⏱ 2 jam yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> mobilelegends.com</span></div>
+                </div>
+            </a>
+
+            <a href="https://hybrid.co.id/post/tag/esport" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&q=80" alt="Esport Indonesia">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Esport</div>
+                    <div class="card-title">Tim Esport Indonesia Juara Turnamen MLBB SEA Championship 2025 di Bangkok</div>
+                    <div class="card-desc">Tim RRQ Hoshi berhasil membawa pulang trofi dan hadiah senilai 500 juta rupiah.</div>
+                    <div class="card-time">⏱ 5 jam yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> hybrid.co.id</span></div>
+                </div>
+            </a>
+
+            <a href="https://www.pubgmobile.com/en-US/news.html" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&q=80" alt="PUBG Mobile">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Battle Royale</div>
+                    <div class="card-title">PUBG Mobile Season Baru Hadirkan Map Erangel Versi 3.0 dengan Detail yang Memukau</div>
+                    <div class="card-desc">Map legendaris PUBG Mobile kini hadir dalam versi remaster dengan grafis dan fitur baru.</div>
+                    <div class="card-time">⏱ 8 jam yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> pubgmobile.com</span></div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ═══ BERITA TERKINI ═══ -->
+    <div class="content-section">
+        <div class="section-title">⚡ Berita Terkini</div>
+        <div class="card-grid">
+
+            <a href="https://www.playstation.com/id-id/editorial/" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80" alt="PS5 Pro">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Konsol</div>
+                    <div class="card-title">PlayStation 5 Pro Resmi Turun Harga di Indonesia, Ini Daftar Toko Resminya</div>
+                    <div class="card-desc">Sony menurunkan harga PS5 Pro sebesar Rp 1,5 juta sebagai respons peluncuran Switch 2.</div>
+                    <div class="card-time">⏱ 10 jam yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> playstation.com</span></div>
+                </div>
+            </a>
+
+            <a href="https://ff.garena.com/en/news/" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&q=80" alt="Free Fire x Naruto">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Mobile Game</div>
+                    <div class="card-title">Free Fire MAX Umumkan Kolaborasi Spesial dengan Naruto, Bundle Eksklusif Segera Hadir</div>
+                    <div class="card-desc">Garena resmi mengonfirmasi kolaborasi besar yang paling ditunggu komunitas Free Fire.</div>
+                    <div class="card-time">⏱ 12 jam yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> ff.garena.com</span></div>
+                </div>
+            </a>
+
+            <a href="https://agate.id/news/" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80" alt="Agate Studio">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">PC Game</div>
+                    <div class="card-title">Game Developer Lokal Agate Studio Rilis Game RPG Baru Bertema Nusantara</div>
+                    <div class="card-desc">Studio game Indonesia ternama ini rilis karya ambisius dengan mitologi dan budaya Nusantara.</div>
+                    <div class="card-time">⏱ 14 jam yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> agate.id</span></div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ═══ TOP-UP ═══ -->
+    <div class="topup-section" id="topup">
+        <div class="topup-title">💎 Top-Up Game Favorit</div>
+        <div class="game-grid">
+            <a href="https://www.codashop.com/id/mobile-legends" target="_blank" rel="noopener" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Mobile_Legends_Bang_Bang.png/440px-Mobile_Legends_Bang_Bang.png"
+                    onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&q=80'" alt="Mobile Legends">
+                <div class="game-card-label">Mobile Legends</div>
+                <span class="game-card-btn">Top-Up Sekarang</span>
+            </a>
+            <a href="https://www.codashop.com/id/free-fire" target="_blank" rel="noopener" class="game-card">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&q=80" alt="Free Fire">
+                <div class="game-card-label">Free Fire MAX</div>
+                <span class="game-card-btn">Top-Up Sekarang</span>
+            </a>
+            <a href="https://www.codashop.com/id/pubg-mobile" target="_blank" rel="noopener" class="game-card">
+                <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=300&q=80" alt="PUBG Mobile">
+                <div class="game-card-label">PUBG Mobile</div>
+                <span class="game-card-btn">Top-Up Sekarang</span>
+            </a>
+            <a href="https://www.codashop.com/id/genshin-impact" target="_blank" rel="noopener" class="game-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Genshin_Impact.svg/440px-Genshin_Impact.svg.png"
+                    onerror="this.src='https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=300&q=80'" alt="Genshin Impact">
+                <div class="game-card-label">Genshin Impact</div>
+                <span class="game-card-btn">Top-Up Sekarang</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══ REVIEW & TIPS ═══ -->
+    <div class="content-section">
+        <div class="section-title">⭐ Review & Tips</div>
+        <div class="card-grid">
+
+            <a href="https://gamebrott.com/review" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80" alt="Review Silksong">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Review</div>
+                    <div class="card-title">Review: Hollow Knight Silksong — Apakah Sepadan dengan Penantian 7 Tahun?</div>
+                    <div class="card-desc">Kami sudah mainkan 40 jam. Simak ulasan lengkap dan nilai akhir dari redaksi GamesweN.</div>
+                    <div class="card-time">⏱ 1 hari yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> gamebrott.com</span></div>
+                </div>
+            </a>
+
+            <a href="https://www.duniagames.co.id/tips" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&q=80" alt="Tips MLBB">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Tips & Trik</div>
+                    <div class="card-title">5 Hero MLBB Paling Sakit di Patch 1.8.98, Cocok untuk Push Rank Cepat</div>
+                    <div class="card-desc">Meta terbaru MLBB berubah drastis. Berikut hero yang wajib kamu kuasai untuk naik rank.</div>
+                    <div class="card-time">⏱ 1 hari yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> duniagames.co.id</span></div>
+                </div>
+            </a>
+
+            <a href="https://genshin.hoyoverse.com/en/news" target="_blank" rel="noopener" class="news-card">
+                <div class="card-thumb">
+                    <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80" alt="Genshin Build">
+                </div>
+                <div class="card-body">
+                    <div class="card-cat">Guide</div>
+                    <div class="card-title">Build Terbaik Karakter Baru Genshin Impact 6.0 — Artifact, Senjata & Tim Ideal</div>
+                    <div class="card-desc">Panduan lengkap cara memaksimalkan karakter bintang 5 terbaru di patch 6.0 Genshin Impact.</div>
+                    <div class="card-time">⏱ 2 hari yang lalu <span class="ext-badge"><i class="ri-external-link-line"></i> hoyoverse.com</span></div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+        <div class="footer-layout">
+
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">GamesweN<span>.ID</span></a>
+                <p>Portal berita game Indonesia terpercaya. Update terkini seputar mobile, PC, konsol, dan esport.</p>
+
+                <!-- Social media dengan warna brand masing-masing -->
+                <div class="social-media">
+                    <a href="#" class="social-facebook" title="Facebook">
+                        <i class="ri-facebook-fill"></i>
+                    </a>
+                    <a href="#" class="social-instagram" title="Instagram">
+                        <i class="ri-instagram-fill"></i>
+                    </a>
+                    <a href="#" class="social-tiktok" title="TikTok">
+                        <i class="ri-tiktok-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-links-col">
+                <h5>Kategori</h5>
+                <a href="#">Mobile Game</a>
+                <a href="#">PC Game</a>
+                <a href="#">Konsol</a>
+                <a href="#">Esport</a>
+                <a href="#topup">Top-Up</a>
+            </div>
+
+            <div class="footer-links-col">
+                <h5>Informasi</h5>
+                <a href="#">Tentang Kami</a>
+                <a href="#">Kebijakan Privasi</a>
+                <a href="#">Pasang Iklan</a>
+                <a href="#">Kirim Berita</a>
+                <a href="#">Hubungi Kami</a>
+            </div>
+
+            <div class="footer-links-col">
+                <h5>Tim Kami</h5>
+                <p style="font-size:11px; color:#666; margin-bottom:14px;">Tim ETS — 3 anggota</p>
+
+                <div class="team-member">
+                    <span class="team-emoji">🎥</span>
+                    <div>
+                        <div class="team-name">Miroslaf Fathir Zidane</div>
+                        <div class="team-info">2043251025 &nbsp;·&nbsp; Ketua</div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <span class="team-emoji">🎮</span>
+                    <div>
+                        <div class="team-name">M Risyad A</div>
+                        <div class="team-info">2043251099 &nbsp;·&nbsp; Panglima</div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <span class="team-emoji">🎨</span>
+                    <div>
+                        <div class="team-name">Wildan Carur Wijaya</div>
+                        <div class="team-info">2043251109 &nbsp;·&nbsp; Artis</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 GamesweN.ID — Semua hak dilindungi.</p>
+            <p>Dibuat dengan ❤️ untuk komunitas gamer Indonesia</p>
+        </div>
+    </footer>
+
+</body>
+</html>\
